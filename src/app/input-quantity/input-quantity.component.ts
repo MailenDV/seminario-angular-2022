@@ -15,10 +15,10 @@ export class InputQuantityComponent implements OnInit{
   }
 
   @Input()
-  quantity!: number;
+  quantity: number;
 
   @Input()
-  max!: number;
+  max: number;
 
   @Output()
   quantityChange: EventEmitter<number> = new EventEmitter<number>();
