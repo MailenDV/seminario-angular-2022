@@ -1,0 +1,54 @@
+<h1 class="text-center mt-3 mb-3">Variedades de Yerbas</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th scope="col" class="text-center">Tipo</th>
+            <th class="text-center">Sabor</th>
+            <th class="text-center">Peso</th>
+            <th class="text-center">Precio</th>
+            <th hidden>Stock</th>
+            <th hidden>Cantidad</th>
+            <th hidden>Comprar</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let product of products" [ngClass]="{'sale': product.sale && product.stock!=0}">
+            <td><img [src]="product.image" [alt]="product.type"></td>
+            <td class="text-center">{{product.type | uppercase}}</td>
+            <td>{{product.taste}}</td>
+            <td>{{product.weight}}<span>gr</span></td>
+            <td>{{product.price | currency}}</td>
+            <td>
+              <span class="badge text-bg-warning" *ngIf="product.stock==0">Sin stock</span>
+            </td>
+            <td>
+              <app-input-quantity [(quantity)]="product.quantity" [max]="product.stock" (maxReached)="maxReached($event)" *ngIf="product.stock"></app-input-quantity>
+            </td>
+            <td>
+              <input class="btn btn-primary" type="submit" value="Agregar al carrito" *ngIf="product.stock!=0 else elseBlock">
+              <ng-template #elseBlock>
+                <input class="btn btn-primary" type="submit" value="Agregar al carrito" disabled>
+              </ng-template>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- data-bs-toggle="modal" data-bs-target="#staticBackdrop" -->
+<!-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">No hay stock</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        No contamos con el stock suficiente para
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div> -->
