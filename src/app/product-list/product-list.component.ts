@@ -10,7 +10,7 @@ import { Product } from './Product'
 })
 export class ProductListComponent implements OnInit{
 
-  products: Product[] = [];
+  products: Product[];
 
   constructor(
     private cart: ShoppingCartService,
@@ -19,7 +19,7 @@ export class ProductListComponent implements OnInit{
 
   ngOnInit(): void {
     this.productsDataService.getAll()
-      .subscribe(products => this.products = products);
+    .subscribe(products => this.products = products);
   }
 
   maxReached(msg: string) {

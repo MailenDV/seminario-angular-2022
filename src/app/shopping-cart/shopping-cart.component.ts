@@ -18,11 +18,11 @@ export class ShoppingCartComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  empty(){
+  empty() : void {
     this.cart.empty();
   }
 
-  deleteP(product : Product){
+  deleteP(product : Product) : void {
     this.cart.deleteP(product);
   }
 }
