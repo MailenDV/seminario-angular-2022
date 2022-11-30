@@ -1,5 +1,6 @@
-import { KeyValue } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ProductDataService } from '../product-data.service';
+import { ShoppingCartService } from '../shopping-cart.service';
 import { Product } from './Product'
 
 @Component({
@@ -7,80 +8,32 @@ import { Product } from './Product'
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss']
 })
-export class ProductListComponent {
-  products: Product[] = [
-    {
-      type: "Playadito",
-      taste: "Tradicional",
-      weight: 1000,
-      price: 780,
-      stock: 20,
-      image: "assets/img/playadito.webp",
-      sale: false,
-      quantity: 0,
-    },
-    {
-      type: "Union",
-      taste: "Tradicional",
-      weight: 1000,
-      price: 710,
-      stock: 5,
-      image: "assets/img/union.webp",
-      sale: true,
-      quantity: 0,
-    },
-    {
-      type: "Taragui",
-      taste: "Tradicional",
-      weight: 1000,
-      price: 726,
-      stock: 12,
-      image: "assets/img/taragui.webp",
-      sale: false,
-      quantity: 0,
-    },
-    {
-      type: "Mañanita",
-      taste: "Tradicional",
-      weight: 1000,
-      price: 785,
-      stock: 0,
-      image: "assets/img/mañanita.webp",
-      sale: false,
-      quantity: 0,
-    },
-    {
-      type: "La Merced",
-      taste: "Intenso",
-      weight: 500,
-      price: 596,
-      stock: 12,
-      image: "assets/img/merced.webp",
-      sale: true,
-      quantity: 0,
-    },
-    {
-      type: "Rosamonte",
-      taste: "Intenso",
-      weight: 500,
-      price: 405,
-      stock: 0,
-      image: "assets/img/rosamonte.webp",
-      sale: false,
-      quantity: 0,
-    }
-  ];
+export class ProductListComponent implements OnInit{
 
-  constructor() { }
+  products: Product[] = [];
+
+  constructor(
+    private cart: ShoppingCartService,
+    private productsDataService: ProductDataService) {
+  }
 
   ngOnInit(): void {
+    this.productsDataService.getAll()
+      .subscribe(products => this.products = products);
   }
 
   maxReached(msg: string) {
-    alert(msg);
+    alert(msg); //Hacer una funcion que muestre un modal con [()] en el html que sea *ngIf(error) aparece el modal
   }
 
+  addToCart(product) : void{
+    if(product.quantity!=0){
+      this.cart.addToCart(product);
+      product.stock-=product.quantity;
+      product.quantity = 0;
 
+    }
+  }
 
 
 }
